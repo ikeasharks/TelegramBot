@@ -37,7 +37,13 @@
 
         let btn = document.getElementById("btn"); //получаем кнопку
         btn.onclick = function() { //при клике
-            tg.openInvoiceLink('https://t.me/NodejsBotik_bot?start=123456') //отправляем данные в строковом виде
+            tg.openInvoice('https://t.me/NodejsBotik_bot?start=123456', (err, res) => {
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(res)
+                }
+            }) //отправляем данные в строковом виде
         }
 
         let usercard = document.getElementById("usercard"); //получаем блок usercard 
