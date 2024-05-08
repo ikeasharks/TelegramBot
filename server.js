@@ -345,6 +345,10 @@ bot.on('contact', async contact => {
     }
 })
 
+bot.on('web_app_data', async webMsg => {
+    console.log(webMsg)
+    console.log(webMsg.web_app_data.data + ' то что мы передали в бота')
+})
 
 const commands = [
     {
