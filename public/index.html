@@ -8,17 +8,31 @@
 </head>
 <body>
     <a style="color: aqua;">TelegramWebApp</a>
+    <div id="usercard">
+
+    </div>
     <script>
         const tg = window.Telegram.WebApp
         tg.MainButton.text = 'TelegramWebApp'
         tg.MainButton.color = '#1E90FF'
         tg.MainButton.show()
-        tg.MainButton.onClick(() => tg.sendData('Hello!'))
 
         Telegram.WebApp.onEvent('mainButtonClicked', function(){
             tg.sendData("some string that we need to send"); 
             //при клике на основную кнопку отправляем данные в строковом виде
         });
+
+        let usercard = document.getElementById("usercard"); //получаем блок usercard 
+        let profName = document.createElement('p'); //создаем параграф
+        profName.innerText = `${tg.initDataUnsafe.user.first_name}
+        ${tg.initDataUnsafe.user.last_name}
+        ${tg.initDataUnsafe.user.username} (${tg.initDataUnsafe.user.language_code})`;
+        //выдем имя, "фамилию", через тире username и код языка
+        usercard.appendChild(profName); //добавляем 
+
+        let userid = document.createElement('p'); //создаем еще параграф 
+        userid.innerText = `${tg.initDataUnsafe.user.id}`; //показываем user_id
+        usercard.appendChild(userid); //добавляем
 
         tg.BackButton.text = 'Back'
         tg.BackButton.show()
