@@ -17,8 +17,8 @@
         tg.MainButton.color = '#1E90FF'
         tg.MainButton.show()
 
-        Telegram.WebApp.onEvent('mainButtonClicked', function(){
-            tg.sendData("some string that we need to send"); 
+        Telegram.WebApp?.onEvent('mainButtonClicked', function(){
+            tg.openTelegramLink('https://t.me/BotFather')
             //при клике на основную кнопку отправляем данные в строковом виде
         });
 
