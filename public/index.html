@@ -19,6 +19,7 @@
 
         Telegram.WebApp?.onEvent('mainButtonClicked', function(){
             tg.openTelegramLink('https://t.me/BotFather')
+            tg.sendData('пишу тебе с фронта')
             //при клике на основную кнопку отправляем данные в строковом виде
         });
 
