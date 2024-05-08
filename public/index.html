@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TelegramWebApp</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <a style="color: aqua;">TelegramWebApp</a>
+    <script>
+        const tg = window.Telegram.WebApp
+        tg.MainButton.text = 'TelegramWebApp'
+        tg.MainButton.color = '#1E90FF'
+        tg.MainButton.show()
+        tg.MainButton.onClick(() => tg.sendData('Hello!'))
+
+        tg.BackButton.text = 'Back'
+        tg.BackButton.show()
+        tg.ready()
+    </script>
+</body>
+</html>
