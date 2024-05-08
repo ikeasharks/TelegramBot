@@ -11,6 +11,9 @@
     <div id="usercard" style="color: aqua;">
 
     </div>
+    <button id="btn" style="border: 1px solid aqua;">
+        Платежка
+    </button>
     <script>
         const tg = window.Telegram.WebApp
         tg.MainButton.text = 'TelegramWebApp'
@@ -19,9 +22,23 @@
 
         Telegram.WebApp?.onEvent('mainButtonClicked', function(){
             tg.openTelegramLink('https://t.me/BotFather')
-            tg.sendData('пишу тебе с фронта')
             //при клике на основную кнопку отправляем данные в строковом виде
         });
+
+        Telegram.WebApp?.onEvent('backButtonClicked', function(){
+            tg.close()
+            //при клике на кнопку "назад" закрываем окно
+        });
+
+        Telegram.WebApp?.onEvent('themeChanged', function(){
+            document.body.style.backgroundColor = 'black'
+            //при изменении темы меняем цвет фона
+        });
+
+        let btn = document.getElementById("btn"); //получаем кнопку
+        btn.onclick = function() { //при клике
+            tg.openInvoiceLink('https://t.me/NodejsBotik_bot?start=123456') //отправляем данные в строковом виде
+        }
 
         let usercard = document.getElementById("usercard"); //получаем блок usercard 
         let profName = document.createElement('p'); //создаем параграф
