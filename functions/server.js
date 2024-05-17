@@ -8,13 +8,14 @@ const app = express()
 require("dotenv").config()
 
 app.get('/', (req, res) => {
-    fs.readFile('./public/html/index.html', {encoding: 'utf-8', flag: 'r'}, (err, data) => {
+    fs.readFile('../public/index.html', {encoding: 'utf-8', flag: 'r'}, (err, data) => {
         if(err){
             console.log(err)
         }else{
             res.send(data)
         }
     })
+    
 })
 
 

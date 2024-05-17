@@ -38,14 +38,9 @@
 
         let btn = document.getElementById("btn"); //получаем кнопку
         btn.addEventListener('click' ,function() { //при клике
-            tg.openInvoice('https://t.me/NodejsBotik_bot?start=123456', (err, res) => {
-                if(err){
-                    console.log(err)
-                }else{
-                    console.log(res)
-                }
+            console.log('нажал на кнопку платежа')
             }) //отправляем данные в строковом виде
-        })
+        
 
         let usercard = document.getElementById("usercard"); //получаем блок usercard 
         let profName = document.createElement('p'); //создаем параграф
