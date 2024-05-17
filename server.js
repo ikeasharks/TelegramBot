@@ -133,19 +133,12 @@ bot.on("text", async msg => {
     }else if(msg.text === '/site'){
         bot.sendMessage(msg.chat.id, 'Это кнопка для перехода на сайт',{
             reply_markup: JSON.stringify({
-                inline_keyboard: [[
-                    {text: 'Кликай', url: 'https://lighthearted-selkie-d27699.netlify.app/'}
+                keyboard: [[
+                    {text: 'Кликай', web_app: {url: 'https://lighthearted-selkie-d27699.netlify.app/'}}
                 ]]
             })
 
     })
-    }else if(msg.web_app_data.data){
-        try{
-            const data = JSON.parse(msg.web_app_data.data)
-            bot.sendMessage(msg.chat.id, `Ваш ник: ${data}`)
-        }catch(e){
-            console.log(e)
-        }
     }
     else{
         console.log(msg.text)
@@ -153,6 +146,11 @@ bot.on("text", async msg => {
     }
 })
 
+bot.on('web_app_data', (msg) => {
+    const data = JSON.parse(msg.web_app_data.data)
+    console.log(data)
+    //bot.sendMessage(msg.chat.id, `Ваш ник: ${data}`)
+})
 
 bot.on('pre_checkout_query', (query)=> {
     bot.answerPreCheckoutQuery(query.id, true)
