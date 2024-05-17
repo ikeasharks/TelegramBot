@@ -1,5 +1,5 @@
 const TelegramBot = require('node-telegram-bot-api')
-const connection = require('./database.js')
+const connection = require('../database.js')
 const express = require('express')
 const fs = require('fs')
 
