@@ -51,21 +51,14 @@ bot.on("text", async msg => {
                 if(err){
                     console.log(err)
                 }else{
-                    console.log(msg.from.id)
                     connection.query(`SELECT user_id FROM users`, (err, result) => {
                         if(err){
                             console.log(err)
                         } else{
-
-                            var idArr = []
-                            for(let i = 0; i < result.length; i++){
-                                if(result[i].user_id == msg.from.id){
-                                    idArr.push(result[i].user_id)
-                                    console.log(idArr)
-                                }
-                               
-                            }
-                            if(idArr == msg.from.id){
+                            console.log(msg.from.id + ' айди пользователя')
+                            console.log(result[0].user_id + ' айди пользователя, но из базы')
+                            
+                            if(result[0].user_id == msg.from.id){
                                 console.log('Такой пользователь есть в базе и можно доставать инфу о нем')
                                 try{
                                     const mainKeyboard = {
@@ -123,8 +116,23 @@ bot.on("text", async msg => {
             
         });
     }
-    else if(msg.text === '/id' && authenticate_users(msg.from.id)){
-        bot.sendMessage(msg.chat.id, 'Your ID: ' + msg.from.id, keyboard)    
+    else if(msg.text === '/pay'){
+        
+        const chatId = msg.chat.id;
+        const title = 'Название счета';
+        const description = 'Описание счета';
+        const payload = 'Пользовательские данные';
+        const providerToken = process.env.PROVIDER_TOKEN;
+        const currency = 'RUB';
+        const prices = [{ label: 'Товар', amount: 10000 }];
+
+        bot.sendInvoice(chatId, title, description, payload, providerToken, currency, prices)
+        .then((sentInvoice) => {
+            console.log('Счет успешно отправлен:', sentInvoice);
+        })
+        .catch((error) => {
+            console.error('Ошибка при отправке счета:', error);
+        });
     }
     else{
         console.log(msg.text)
@@ -133,36 +141,46 @@ bot.on("text", async msg => {
 })
 
 
+bot.on('pre_checkout_query', (query)=> {
+    bot.answerPreCheckoutQuery(query.id, true)
+})
+
+bot.on('successful_payment', (msg) => {
+    bot.sendMessage(msg.chat.id, 'Оплата прошла успешно')
+})
+
 bot.on('callback_query', async msg => {
     if(msg.data == 'Личный кабинет'){
         try{
             connection.query(`SELECT * FROM users WHERE user_id = ${msg.from.id}`, (err, result) => {
-                var id
+
                 if(err){
                     console.log(err)
                 }else{
-                    id = result[0].id
-                    console.log(id)
-                }
-                const sql = `SELECT * FROM profile WHERE userId = '${id}'`
-                connection.query(sql, (err, result) => {
-                    if(err){
-                        console.log(err)
-                    }else{
-                        if(result[0].name == undefined || result[0].age == undefined|| result[0].birthday == undefined){
-                            console.log('Ошибка поиска данных в базе, их просто нет')
+                    console.log(result[0].id + ' айди пользователя в коллбэке из таблицы пользователей')
+
+                    const sql = `SELECT * FROM profile WHERE userId = '${result[0].id}'`
+                    connection.query(sql, (err, result) => {
+                        if(err){
+                            console.log(err)
                         }else{
-                            let str = result[0].birthday.toString()
-                            let date = new Date(str)
-                            bot.editMessageText(`Имя: ${result[0].name}, Возраст: ${result[0].age}, Дата рождения: ${date.toLocaleDateString('ru')}`, { chat_id: msg.message.chat.id, message_id: msg.message.message_id, reply_markup: {
-                                inline_keyboard: [
-                                    [{text: 'Редактировать', callback_data: 'Редактировать'}, {text: "Реферальная система", callback_data: "Реферальная система"}],
-                                    [{text: 'Назад', callback_data: 'Назад | меню'}]
-                                ]
-                            }})
-                        }
-                        
-                    }})
+                            console.log(result[0])
+                            if(result[0] === undefined){
+                                console.log('Нету данных этого пользователя в базе')
+                            }
+                            else{
+                                let str = result[0].birthday.toString()
+                                let date = new Date(str)
+                                bot.editMessageText(`Имя: ${result[0].name}, Возраст: ${result[0].age}, Дата рождения: ${date.toLocaleDateString('ru')}`, { chat_id: msg.message.chat.id, message_id: msg.message.message_id, reply_markup: {
+                                    inline_keyboard: [
+                                        [{text: 'Редактировать', callback_data: 'Редактировать'}, {text: "Реферальная система", callback_data: "Реферальная система"}],
+                                        [{text: 'Назад', callback_data: 'Назад | меню'}]
+                                    ]
+                                }})
+                            }
+                            
+                        }})
+                }
             })
 
         }catch(error){
@@ -345,10 +363,10 @@ bot.on('contact', async contact => {
     }
 })
 
-bot.on('web_app_data', async webMsg => {
-    console.log(webMsg)
-    console.log(webMsg.web_app_data.data + ' то что мы передали в бота')
-})
+// bot.on('web_app_data', async webMsg => {
+//     console.log(webMsg)
+//     console.log(webMsg.web_app_data.data + ' то что мы передали в бота')
+// })
 
 const commands = [
     {
