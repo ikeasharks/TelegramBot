@@ -7,23 +7,19 @@ const app = express()
 
 require("dotenv").config()
 
+//const site = fetch("https://lighthearted-selkie-d27699.netlify.app/").then(res => console.log(res))
+
+app.use(express.static(__dirname));
+
 app.get('/', (req, res) => {
-    fs.readFile('../public/index.html', {encoding: 'utf-8', flag: 'r'}, (err, data) => {
-        if(err){
-            console.log(err)
-        }else{
-            res.send(data)
-        }
+    fs.readFile('./public/index.html', {encoding: 'utf-8', flag: 'r'}, (err, data) => {
+        if(err) throw err
+        
     })
-    
+
+    res.sendFile(__dirname+'/public/index.html');
 })
 
-
-
-app.post('/button', (req, res) => {
-    bot.sendMessage(req.body.chatId)
-
-})
 
 const PORT = process.env.PORT || 3000
 
@@ -134,6 +130,22 @@ bot.on("text", async msg => {
         .catch((error) => {
             console.error('Ошибка при отправке счета:', error);
         });
+    }else if(msg.text === '/site'){
+        bot.sendMessage(msg.chat.id, 'Это кнопка для перехода на сайт',{
+            reply_markup: JSON.stringify({
+                inline_keyboard: [[
+                    {text: 'Кликай', url: 'https://lighthearted-selkie-d27699.netlify.app/'}
+                ]]
+            })
+
+    })
+    }else if(msg.web_app_data.data){
+        try{
+            const data = JSON.parse(msg.web_app_data.data)
+            bot.sendMessage(msg.chat.id, `Ваш ник: ${data}`)
+        }catch(e){
+            console.log(e)
+        }
     }
     else{
         console.log(msg.text)

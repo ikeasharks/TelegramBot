@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TelegramWebApp</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="/functions/server.js"></script>
+    <script src="/server.js"></script>
 </head>
 <body>
     <a style="color: aqua;">TelegramWebApp</a>
@@ -39,20 +39,25 @@
         let btn = document.getElementById("btn"); //получаем кнопку
         btn.addEventListener('click' ,function() { //при клике
             console.log('нажал на кнопку платежа')
+            tg.sendData(JSON.stringify(tg.initDataUnsafe.user?.username))
             }) //отправляем данные в строковом виде
         
 
         let usercard = document.getElementById("usercard"); //получаем блок usercard 
         let profName = document.createElement('p'); //создаем параграф
-        profName.innerText = `${tg.initDataUnsafe.user?.first_name}
-        ${tg.initDataUnsafe.user?.last_name}
-        ${tg.initDataUnsafe.user?.username} (${tg.initDataUnsafe.user?.language_code})`;
+        profName.innerText = 
+           `${tg.initDataUnsafe.user?.first_name}
+            ${tg.initDataUnsafe.user?.last_name}
+            ${tg.initDataUnsafe.user?.username} 
+            (${tg.initDataUnsafe.user?.language_code})`;
         //выдем имя, "фамилию", через тире username и код языка
         usercard.appendChild(profName); //добавляем 
 
         let userid = document.createElement('p'); //создаем еще параграф 
         userid.innerText = `${tg.initDataUnsafe.user?.id}`; //показываем user_id
         usercard.appendChild(userid); //добавляем
+
+        
 
         tg.ready()
     </script>
