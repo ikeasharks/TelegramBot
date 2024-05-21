@@ -2,6 +2,7 @@ const TelegramBot = require('node-telegram-bot-api')
 const connection = require('./database.js')
 const express = require('express')
 const fs = require('fs')
+const cors = require('cors')
 
 const app = express()
 
@@ -24,12 +25,15 @@ const getData = async ()=>{
 }
 //getData()
 
-app.use(express.json(), (req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    next()
-})
+app.use(cors({
+    origin: '*',
+    optionsSuccessStatus: 200,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  }))
 
 app.post('/', (req, res) => {
+    
     const data = req.body
     console.log(data)
     console.log('Hello Node')

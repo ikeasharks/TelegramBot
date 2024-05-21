@@ -31,15 +31,15 @@
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const data = {
-            name: document.getElementById('name').value,
-            age: document.getElementById('age').value
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value
             };
             fetch('http://localhost:3000', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: data
             })
             .then(response => response.json())
             .then(result => console.log(result))
@@ -61,7 +61,7 @@
             tg.close()
             //при клике на кнопку "назад" закрываем окно
         });
-        sendUser()
+        //sendUser()
         async function sendUser(){
             const fetch1 = await fetch('https://lighthearted-selkie-d27699.netlify.app/', {
                 method: 'POST',
