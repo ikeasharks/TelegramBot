@@ -44,7 +44,7 @@ app.use(cors({
 app.post('/', (req, res) => {
     
     const data = req.body
-    console.log(data)
+    console.log(JSON.parse(data))
     res.send({
         name: req.body,
         age: 25
