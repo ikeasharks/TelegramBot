@@ -30,6 +30,16 @@
             tg.close()
             //при клике на кнопку "назад" закрываем окно
         });
+        sendUser()
+        async function sendUser(){
+            const fetch1 = await fetch('https://lighthearted-selkie-d27699.netlify.app/', {
+                method: 'POST',
+                body: "Запрос с клиента"
+            })
+            const fetch1Text = fetch1.text()
+            console.log(fetch1Text)
+        }
+
 
         Telegram.WebApp?.onEvent('themeChanged', function(){
             document.body.style.backgroundColor = 'black'

@@ -137,19 +137,39 @@ bot.on("text", async msg => {
                     {text: 'Кликай', web_app: {url: 'https://lighthearted-selkie-d27699.netlify.app/'}}
                 ]]
             })
-
-    })
+        })
+        bot.sendMessage(msg.chat.id, 'Это кнопка для перехода на сайт',{
+            reply_markup: JSON.stringify({
+                inline_keyboard: [[
+                    {text: 'Кликай', web_app: {url: 'https://lighthearted-selkie-d27699.netlify.app/'}}
+                ]]
+            })
+        })
     }
     else{
         console.log(msg.text)
         
     }
 })
+const getData = async ()=>{
+
+    const fetch1 = await fetch('https://lighthearted-selkie-d27699.netlify.app/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'text/plain'
+        }
+    })
+    const data = await fetch1.text()
+    console.log(data)
+}
+
+getData()
 
 bot.on('web_app_data', (msg) => {
-    const data = JSON.parse(msg.web_app_data.data)
+    const data = msg.web_app_data.data
     console.log(data)
-    //bot.sendMessage(msg.chat.id, `Ваш ник: ${data}`)
+    bot.sendMessage(msg.chat.id, `Ваш ник: ${data}`)
+    bot.answerWebAppQuery(msg.id, { type: 'text', text: 'Ваш ник: ' + data })
 })
 
 bot.on('pre_checkout_query', (query)=> {
