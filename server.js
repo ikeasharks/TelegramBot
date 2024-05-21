@@ -25,6 +25,15 @@ const getData = async ()=>{
 }
 //getData()
 
+const data = {
+    name: 'test',
+    age: 25
+}
+console.log(data + " просто json")
+const strData = JSON.stringify(data)
+const parseJson = JSON.parse(strData)
+console.log(parseJson)
+
 app.use(cors({
     origin: '*',
     optionsSuccessStatus: 200,
@@ -34,8 +43,11 @@ app.use(cors({
 
 app.post('/', (req, res) => {
     
-    const data = req.body
-    console.log(data)
+    const data = res.body
+    const dataStr = JSON.stringify(data)
+    const dataParse = JSON.parse(dataStr)
+    
+    console.log(dataParse)
     console.log('Hello Node')
     res.send('Hello Node')
 });
