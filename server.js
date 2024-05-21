@@ -24,7 +24,10 @@ const getData = async ()=>{
 }
 //getData()
 
-app.use(express.json())
+app.use(express.json(), (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    next()
+})
 
 app.post('/', (req, res) => {
     const data = req.body
