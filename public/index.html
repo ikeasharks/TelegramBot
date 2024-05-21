@@ -28,12 +28,14 @@
 
         const form = document.querySelector('form');
         form.addEventListener('submit', (event) => {
+            const name = document.getElementById('name')
+            const age = document.getElementById('age')
             event.preventDefault();
             const data = {
-                name: document.getElementById('name').value,
-                age: document.getElementById('age').value
+                name: name.value,
+                age: age.value
             };
-            
+            alert(name.value, age.value)
             fetch('http://localhost:3000', {
             method: 'POST',
             headers: {
