@@ -9,22 +9,40 @@ require("dotenv").config()
 
 //const site = fetch("https://lighthearted-selkie-d27699.netlify.app/").then(res => console.log(res))
 
-app.use(express.static(__dirname));
+const getData = async ()=>{
+    try{
+        const response = await fetch('https://lighthearted-selkie-d27699.netlify.app/', {
+            method: 'GET',
+            headers: {'Content-Type': 'text/html'}
+        })
+        const data = await response.text()
+        console.log(data)  
+    }catch(err){
+        console.log(err)
+    }
+    
+}
+getData()
 
-app.get('/', (req, res) => {
-    fs.readFile('./public/index.html', {encoding: 'utf-8', flag: 'r'}, (err, data) => {
-        if(err) throw err
+app.use('https://lighthearted-selkie-d27699.netlify.app/', (req, res, next) => {
+    res.send('Hello Node')
+    console.log('Hello Node')
+});
+
+// app.get('/', (req, res) => {
+//     fs.readFile('./public/index.html', {encoding: 'utf-8', flag: 'r'}, (err, data) => {
+//         if(err) throw err
         
-    })
+//     })
 
-    res.sendFile(__dirname+'/public/index.html');
-})
+//     res.sendFile(__dirname+'/public/index.html');
+// })
 
 
 const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}!`)
+    console.log(`Example app listening on http://localhost:${PORT}!`)
 })
 
 
@@ -151,19 +169,8 @@ bot.on("text", async msg => {
         
     }
 })
-const getData = async ()=>{
 
-    const fetch1 = await fetch('https://lighthearted-selkie-d27699.netlify.app/', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'text/plain'
-        }
-    })
-    const data = await fetch1.text()
-    console.log(data)
-}
 
-getData()
 
 bot.on('web_app_data', (msg) => {
     const data = msg.web_app_data.data
