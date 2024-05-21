@@ -43,13 +43,13 @@ app.use(cors({
 
 app.post('/', (req, res) => {
     
-    const data = res.body
-    const dataStr = JSON.stringify(data)
-    const dataParse = JSON.parse(dataStr)
+    const data = req.body
+    console.log(data)
+    res.send({
+        name: 'test',
+        age: 25
+    })
     
-    console.log(dataParse)
-    console.log('Hello Node')
-    res.send('Hello Node')
 });
 
 // app.get('/', (req, res) => {
