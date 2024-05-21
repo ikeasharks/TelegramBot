@@ -22,11 +22,15 @@ const getData = async ()=>{
     }
     
 }
-getData()
+//getData()
 
-app.use('https://lighthearted-selkie-d27699.netlify.app/', (req, res, next) => {
-    res.send('Hello Node')
+app.use(express.json())
+
+app.post('/', (req, res) => {
+    const data = req.body
+    console.log(data)
     console.log('Hello Node')
+    res.send('Hello Node')
 });
 
 // app.get('/', (req, res) => {
@@ -42,7 +46,7 @@ app.use('https://lighthearted-selkie-d27699.netlify.app/', (req, res, next) => {
 const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => {
-    console.log(`Example app listening on http://localhost:${PORT}!`)
+    console.log(`Example app listening on http://localhost:${PORT}`)
 })
 
 
