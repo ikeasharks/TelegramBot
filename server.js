@@ -3,6 +3,7 @@ const connection = require('./database.js')
 const express = require('express')
 const fs = require('fs')
 const cors = require('cors')
+const bodyParser = require('body-parser')
 
 const app = express()
 
@@ -25,15 +26,8 @@ const getData = async ()=>{
 }
 //getData()
 
-const data = {
-    name: 'test',
-    age: 25
-}
-console.log(data + " просто json")
-const strData = JSON.stringify(data)
-const parseJson = JSON.parse(strData)
-console.log(parseJson)
-
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors({
     origin: '*',
     optionsSuccessStatus: 200,
@@ -44,10 +38,10 @@ app.use(cors({
 app.post('/', (req, res) => {
     
     const data = req.body
-    console.log(JSON.parse(data))
+    console.log(data)
     res.send({
-        name: req.body,
-        age: 25
+        name: req.body.name,
+        age: req.body.age
     })
     
 });
