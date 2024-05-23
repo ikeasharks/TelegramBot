@@ -20,23 +20,23 @@ app.use(cors({
   }))
   
 
-const strapi = fetch('http://localhost:1337/api/profiles/1', {
-    method: 'GET',
-    headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${process.env.STRAPI_TOKEN}`
-    }
-    }).then(req => req.json()).then(data => {
-        const attr = data.data.attributes
-        connection.query(`INSERT INTO test_table (name, age, birth) VALUES ('${attr.name}', '${attr.Age}', '${attr.Birthday}')`, (res,err) => {
-                if(err){
-                console.log(err)
-                }else{
-                    console.log(res)
-                }
-            })
-    }
-).catch(err => console.log(err))
+// const strapi = fetch('http://localhost:1337/api/profiles/1', {
+//     method: 'GET',
+//     headers: {
+//     'Content-Type': 'application/json',
+//     'Authorization': `Bearer ${process.env.STRAPI_TOKEN}`
+//     }
+//     }).then(req => req.json()).then(data => {
+//         const attr = data.data.attributes
+//         connection.query(`INSERT INTO test_table (name, age, birth) VALUES ('${attr.name}', '${attr.Age}', '${attr.Birthday}')`, (res,err) => {
+//                 if(err){
+//                 console.log(err)
+//                 }else{
+//                     console.log(res)
+//                 }
+//             })
+//     }
+// ).catch(err => console.log(err))
   
 app.get('/', (req, res) => {
     
