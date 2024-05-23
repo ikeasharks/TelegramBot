@@ -91,7 +91,7 @@
                     'Authorization': 'Bearer 7bc8a0195a5cfad4ab46044fb203da3e929ac73348bf18ff89ffa2d530cce42f53d7ad7f8879072c4481b97c27805c0556071daad508c03f61d03cfc23ce681899b485eb8ec0d23eff260dd716fedd7887eaef6056c7c515c01e70f7ed9b7afca5bb1a2c49caf60ee299a7af37bb555ffa2180fccd11e6ddcd57086a95cdd83f' 
                     }
                 }).then(res => res.json()).then(result => {
-                    image.src = result.data[0].url
+                    image.src = result[0].url
                 })
                 }
             )
