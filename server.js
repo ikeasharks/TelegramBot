@@ -9,22 +9,6 @@ const app = express()
 
 require("dotenv").config()
 
-//const site = fetch("https://lighthearted-selkie-d27699.netlify.app/").then(res => console.log(res))
-
-const getData = async ()=>{
-    try{
-        const response = await fetch('https://lighthearted-selkie-d27699.netlify.app/', {
-            method: 'GET',
-            headers: {'Content-Type': 'text/html'}
-        })
-        const data = await response.text()
-        console.log(data)  
-    }catch(err){
-        console.log(err)
-    }
-    
-}
-//getData()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -34,27 +18,37 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
   }))
+  
 
-app.post('/', (req, res) => {
+const strapi = fetch('http://localhost:1337/api/profiles/1', {
+    method: 'GET',
+    headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${process.env.STRAPI_TOKEN}`
+    }
+    }).then(req => req.json()).then(data => {
+        const attr = data.data.attributes
+        connection.query(`INSERT INTO test_table (name, age, birth) VALUES ('${attr.name}', '${attr.Age}', '${attr.Birthday}')`, (res,err) => {
+                if(err){
+                console.log(err)
+                }else{
+                    console.log(res)
+                }
+            })
+    }
+).catch(err => console.log(err))
+  
+app.get('/', (req, res) => {
     
     const data = req.body
-    console.log(data)
-    res.send({
-        name: req.body.name,
-        age: req.body.age
-    })
-    
-});
+console.log(data)
 
-// app.get('/', (req, res) => {
-//     fs.readFile('./public/index.html', {encoding: 'utf-8', flag: 'r'}, (err, data) => {
-//         if(err) throw err
-        
-//     })
-
-//     res.sendFile(__dirname+'/public/index.html');
+// res.send({
+//     name: req.body.name,
+//     age: req.body.age
 // })
 
+});
 
 const PORT = process.env.PORT || 3000
 
@@ -63,17 +57,11 @@ app.listen(PORT, () => {
 })
 
 
-
 const bot = new TelegramBot(process.env.API_KEY, {polling:{
     interval: 300,
     autoStart: true
 }})
 
-const userId = function(user_id){
-    return `SELECT user_id FROM users WHERE user_id = ${user_id}`
-}
-
-//const resultData = []
 
 bot.on("text", async msg => {
     if(msg.text.startsWith("/start")) {
@@ -400,7 +388,7 @@ bot.on('callback_query', async msg => {
 
 bot.on('contact', async contact => {
     try {
-        const id = connection.query(userId(contact.from.id))
+        const id = connection.query(`SELECT user_id FROM users WHERE user_id = ${contact.from.id}`)
         if(id.options.values == undefined){
             const sql = `INSERT INTO users (number,first_name,user_id) VALUES (${contact.contact.phone_number},'${contact.contact.first_name}',${contact.contact.user_id})`
             connection.query(sql, (err, result) => {
@@ -418,11 +406,6 @@ bot.on('contact', async contact => {
     }
 })
 
-// bot.on('web_app_data', async webMsg => {
-//     console.log(webMsg)
-//     console.log(webMsg.web_app_data.data + ' то что мы передали в бота')
-// })
-
 const commands = [
     {
         command: "start",
@@ -435,39 +418,16 @@ const commands = [
     {
         command: "help",
         description: "Раздел помощи"
+    },
+    {
+        command: "pay",
+        description: "Оплата"
+    },
+    {
+        command: "site",
+        description: "Сайт"
     }
 ]
 
 bot.setMyCommands(commands)
 
-// bot.on("text", async msg => {
-//     if(msg.text == '/id' && authenticate_users(msg.from.id)){
-//         bot.sendMessage(msg.chat.id, 'Your ID: ' + msg.from.id, keyboard)    
-//     } else {
-//         bot.sendMessage(msg.chat.id, 'Unauthorized User', keyboard)    
-//     }
-// })
-
-
-// }else if(msg.text == "/contact"){
-    //     if(msg.contact.user_id == msg.from.id){
-        
-        //     }
-        
-        // bot.on("text", async msg => {
-            //     try {
-                //         const msgWaitAsync = await bot.sendMessage(msg.chat.id, "Бот генерирует ответ...")
-                //         setTimeout(async ()=> {
-                    //             bot.deleteMessage(msgWaitAsync.chat.id, msgWaitAsync.message_id)
-                    //             bot.sendMessage(msg.chat.id, msg.text)
-                    
-                    //         }, 5000)
-//     }
-//     catch(error){
-//         console.log(error)
-//     }
-// })
-
-// bot.on("text", async msg => {
-
-// })
