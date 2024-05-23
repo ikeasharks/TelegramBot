@@ -30,7 +30,7 @@
     <form id="formInfo" action="http://localhost:1337" method="GET">
         <p id="title"></p>
         <h3 id="description"></h3>
-        <button type="submit" value="Показать инфу"></button>
+        <input type="submit" value="Показать инфу"></input>
     </form>
 
     <script>
@@ -75,7 +75,10 @@
             .then(response => response.json())
             .then(result => {
                 console.log(result.data)
-
+                const p = document.getElementById('title')
+                const h3 = document.getElementById('description')
+                p.inner = result.data.attributes.title
+                h3.innerHTML = result.data.attributes.description
                 }
             )
             .catch(error => console.log(error));
