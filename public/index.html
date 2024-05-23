@@ -84,7 +84,7 @@
                 p.innerText = result.data[0].attributes.Title
                 h3.innerText = result.data[0].attributes.Description
                 date.innerText = result.data[0].attributes.date
-                fetch('http://localhost:1337/api/uploads/files', {
+                fetch('http://localhost:1337/api/upload/files', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
