@@ -30,6 +30,7 @@
     <form id="formInfo" action="http://localhost:1337" method="GET">
         <p id="title"></p>
         <h3 id="description"></h3>
+        <input type="date" id="date" name="date"><br>
         <input type="submit" value="Показать инфу"></input>
     </form>
 
@@ -77,8 +78,10 @@
                 console.log(result.data)
                 const p = document.getElementById('title')
                 const h3 = document.getElementById('description')
-                p.innerText = result.data[0].attributes.title
-                h3.innerText = result.data[0].attributes.description
+                const date = document.getElementById('date')
+                p.innerText = result.data[0].attributes.Title
+                h3.innerText = result.data[0].attributes.Description
+                date.innerText = result.data[0].attributes.date
                 }
             )
             .catch(error => console.log(error));
