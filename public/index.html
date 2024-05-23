@@ -76,7 +76,7 @@
             })
             .then(response => response.json())
             .then(result => {
-                console.log(result.data)
+                console.log(result)
                 const p = document.getElementById('title')
                 const h3 = document.getElementById('description')
                 const date = document.getElementById('date')
@@ -84,7 +84,7 @@
                 p.innerText = result.data[0].attributes.Title
                 h3.innerText = result.data[0].attributes.Description
                 date.innerText = result.data[0].attributes.date
-                image.src = result.Image.data[0].attributes.url
+                image.src = result.data[0].attributes.Image.url
                 }
             )
             .catch(error => console.log(error));
