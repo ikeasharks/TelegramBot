@@ -36,16 +36,12 @@
             const birthday = document.getElementById('birthday')
             event.preventDefault();
             const data = {
-                data: [
-                    {
-                        attributes: {
-                            name: name.value,
-                            age: age.value,
-                            birthday: birthday.value
-                        }
+                data: {
+                    name: name.value,
+                    age: age.value,
+                    birthday: birthday.value
                     }
-                ]
-            };
+                };
             alert(JSON.stringify(data));
             fetch('http://localhost:1337/api/profiles', {
             method: 'POST',
