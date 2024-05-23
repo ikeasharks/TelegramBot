@@ -38,8 +38,8 @@
             const data = {
                 data: {
                     name: name.value,
-                    age: age.value,
-                    birthday: birthday.value
+                    age: age.value.replace(/-/g, ''),
+                    birthday: birthday.value.replace(/-/g, '')
                     }
                 };
             alert(JSON.stringify(data));
@@ -52,7 +52,7 @@
             body: JSON.stringify(data)
             })
             .then(response => response.json())
-            .then(result => console.log(result))
+            .then(result => console.log(result.data))
             .catch(error => console.log(error));
         });
 
