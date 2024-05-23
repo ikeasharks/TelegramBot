@@ -77,8 +77,8 @@
                 console.log(result.data)
                 const p = document.getElementById('title')
                 const h3 = document.getElementById('description')
-                p.inner = result.data.data.attributes.title
-                h3.innerHTML = result.data.data.attributes.description
+                p.inner = result.data[0].attributes.title
+                h3.innerHTML = result.data[0].attributes.description
                 }
             )
             .catch(error => console.log(error));
